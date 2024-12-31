@@ -2,9 +2,9 @@ import express from "express";
 import { Book } from "../models/bookModel.js";
 
 import { verifyToken } from "../authMiddleware.js";
-import { v2 as cloudinary } from "cloudinary";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
-import multer from "multer";
+// import { v2 as cloudinary } from "cloudinary";
+// import { CloudinaryStorage } from "multer-storage-cloudinary";
+// import multer from "multer";
 
 const router = express.Router();
 
