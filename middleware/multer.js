@@ -1,4 +1,4 @@
-import { v2 as cloudinary } from "cloudinary";
+/*import { v2 as cloudinary } from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import multer from "multer";
 
@@ -21,4 +21,4 @@ const storage = new CloudinaryStorage({
 // Multer middleware
 const upload = multer({ storage });
 
-export default upload;
+export default upload;*/
