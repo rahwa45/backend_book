@@ -2,31 +2,8 @@ import express from "express";
 import { Book } from "../models/bookModel.js";
 
 import { verifyToken } from "../authMiddleware.js";
-//import { v2 as cloudinary } from "cloudinary";
-//import { CloudinaryStorage } from "multer-storage-cloudinary";
-//import multer from "multer";
 
 const router = express.Router();
-
-// // Cloudinary configuration
-// cloudinary.config({
-//   cloud_name: "deizs3n5d",
-//   api_key: "616347267415649",
-//   api_secret: "98pFiifM0jU_EOGDuEWAFjaefrg",
-// });
-
-// // Configure Multer with Cloudinary storage
-// const storage = new CloudinaryStorage({
-//   cloudinary: cloudinary,
-//   params: {
-//     folder: "books", // Folder in your Cloudinary account
-//     allowed_formats: ["jpg", "jpeg", "png"], // Allowable file formats
-//   },
-// });
-
-// const upload = multer({ storage });
-
-// console.log(upload);
 
 // Add Book Route
 router.post("/", verifyToken, async (req, res) => {
@@ -59,7 +36,6 @@ router.post("/", verifyToken, async (req, res) => {
 // Route for getting books for the logged-in user (protected route)
 router.get("/", verifyToken, async (req, res) => {
   try {
-    // console.log(req.user.userId);
     // Find books by userId (only return books for the logged-in user)
     const books = await Book.find({ userId: req.user.userId });
 
@@ -87,11 +63,6 @@ router.get("/:id", verifyToken, async (req, res) => {
     console.log("user id ", book.userId);
     console.log("id ", id);
     // // Ensure the book belongs to the logged-in user
-    // if (book.userId.toString() !== req.user.userId) {
-    //   return res
-    //     .status(403)
-    //     .json({ message: "You are not authorized to access this book" });
-    // }
 
     return res.status(200).json(book);
   } catch (error) {
@@ -117,12 +88,7 @@ router.put("/:id", verifyToken, async (req, res) => {
       return res.status(404).json({ message: "Book not found" });
     }
 
-    // // Ensure the book belongs to the logged-in user
-    // if (book.userId.toString() !== req.user.userId) {
-    //   return res
-    //     .status(403)
-    //     .json({ message: "You are not authorized to update this book" });
-    // }
+    // Ensure the book belongs to the logged-in user
 
     // Update the book
     const result = await Book.findByIdAndUpdate(id, req.body, { new: true });

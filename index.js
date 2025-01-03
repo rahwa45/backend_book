@@ -3,6 +3,11 @@ import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
 import userRoute from "./routes/userRoute.js";
 import booksRoute from "./routes/booksRoute.js";
+
+import dotenv from "dotenv";
+
+dotenv.config();
+
 import cors from "cors";
 
 // Import body-parser (optional, if needed)
@@ -20,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // For URL-encoded data
 // Routes
 app.use("/books", booksRoute);
 app.use("/user", userRoute);
+app.use(express.json());
 
 // Test route
 app.get("/", (req, res) => {
@@ -32,8 +38,8 @@ mongoose
   .connect(mongoDBURL)
   .then(() => {
     console.log("App connected to database");
-    app.listen(PORT, () => {
-      console.log(`App is listening on port ${PORT}`);
+    app.listen(process.env.PORT, () => {
+      console.log(`App is listening on port ${process.env.PORT}`);
     });
   })
   .catch((err) => {
