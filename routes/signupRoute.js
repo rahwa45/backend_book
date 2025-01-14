@@ -1,4 +1,4 @@
-import express from "express";
+/*import express from "express";
 import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "../mailer.js";
 import jwt from "jsonwebtoken";
@@ -41,4 +41,4 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-export default router;
+export default router;*/

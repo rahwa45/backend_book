@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const SECRET_KEY =
+export const SECRET_KEY =
   "iprhdfkn.ndknhfdhfdklfkjldskjlfkjldfkjldskjlfjdsklfjkldskjlfkjldsfkjldskjlfkjldsfkjldskjlfkjldsfkjldskjlfdskjlfkjldskjlfdskjlfkjldfknjds";
 
 export const verifyToken = (req, res, next) => {

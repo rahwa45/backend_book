@@ -17,7 +17,11 @@ const app = express();
 
 // Enable CORS for all origins
 app.use(cors());
+let corsOptions = {
+  origin: ["https://frontend-xi-orpin-43.vercel.app/", "http://localhost:5173"],
+};
 
+app.use(cors(corsOptions));
 // Middleware for parsing request body (use body-parser explicitly)
 app.use(bodyParser.json()); // For JSON payloads
 app.use(bodyParser.urlencoded({ extended: true })); // For URL-encoded data
@@ -38,7 +42,7 @@ mongoose
   .connect(mongoDBURL)
   .then(() => {
     console.log("App connected to database");
-    app.listen(process.env.PORT, () => {
+    app.listen(PORT, () => {
       console.log(`App is listening on port ${process.env.PORT}`);
     });
   })

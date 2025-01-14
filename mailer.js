@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendVerificationEmail = (email, token) => {
-  const verificationLink = `http://localhost:5173/verify/${token}`;
+  const verificationLink = `https://frontend-xi-orpin-43.vercel.app/verify?token=${token}`;
 
   const mailOptions = {
     from: "rahwa3113@gmail.com",

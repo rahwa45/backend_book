@@ -1,14 +1,16 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { SECRET_KEY } from "../authMiddleware.js";
 import { User } from "../models/userModel.js";
+
 import { sendVerificationEmail } from "../mailer.js";
 
 const router = express.Router();
 
 //Route for User Sign Up
-const SECRET_KEY =
-  "iprhdfkn.ndknhfdhfdklfkjldskjlfkjldfkjldskjlfjdsklfjkldskjlfkjldsfkjldskjlfkjldsfkjldskjlfkjldsfkjldskjlfdskjlfkjldskjlfdskjlfkjldfknjds";
+/*const SECRET_KEY =
+  "iprhdfkn.ndknhfdhfdklfkjldskjlfkjldfkjldskjlfjdsklfjkldskjlfkjldsfkjldskjlfkjldsfkjldskjlfkjldsfkjldskjlfdskjlfkjldskjlfdskjlfkjldfknjds";*/
 
 //Route for User Login
 
@@ -36,9 +38,13 @@ router.post("/signup", async (req, res) => {
     });
 
     // Generate a verification token
-    const token = jwt.sign({ id: newUser._id }, SECRET_KEY, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { id: newUser._id, type: "verification" },
+      SECRET_KEY,
+      {
+        expiresIn: "1h",
+      }
+    );
 
     // Send verification email
     sendVerificationEmail(email, token);
@@ -52,12 +58,17 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.get("/verify/:token", async (req, res) => {
+router.get("/verify", async (req, res) => {
   try {
-    const { token } = req.params;
+    const { token } = req.query;
 
     // Verify the token
     const decoded = jwt.verify(token, SECRET_KEY);
+
+    if (decoded.type !== "verification") {
+      return res.status(400).json({ message: "Invalid token type" });
+    }
+
     const userId = decoded.id;
 
     // Update the user's verification status
@@ -101,9 +112,13 @@ router.post("/login", async (req, res) => {
     }
 
     // Generate JWT token with userId included
-    const token = jwt.sign({ userId: user._id, isLogged: true }, SECRET_KEY, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { userId: user._id, type: "auth", isLogged: true },
+      SECRET_KEY,
+      {
+        expiresIn: "1h",
+      }
+    );
 
     return res.status(200).json({ token, username: user.username });
   } catch (error) {
